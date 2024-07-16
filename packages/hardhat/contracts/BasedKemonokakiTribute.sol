@@ -52,26 +52,43 @@ contract BasedKemonokakiTribute {
     ////    ]                                                                                                         ////
     ////}                                                                                                             ////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    string private description = "kemonokaki is a hand-drawn PFP collection inspired by kemonomimi & neo-chibi aesthetics.";
 
-    bytes16[] public keys_nft = ["name","description","image","attributes"]; //not sure if this works like this.
-    bytes16[] public keys_att = ["trait_type","value"]
-    bytes32[] public keys_trt = ["Race","Special Indicator"] 
+    string[] public vals_nft = ["Kemonokaki #1","","",""];
 
-    mapping(bytes32 ==> bytes32) public attributes;
+    string[] public keys_nft = ["name","description","image","attributes"]; //not sure if this works like this.
+    
+    string[] public keys_att = ["trait_type","value"];
+    string[] public keys_trt = ["Race","Special Indicator"] ;
+    string[] public vals_trd = ["Special","Genesis"];
+
+
+    mapping(string => string) public attributes;
+
+    //constructor() public {
+     //   
+   // }
+
+    function mapattribute(string memory key, string memory value) public returns (string memory){
+        attributes[key] = value;
+        addtrait(key);
+    }
 
     ///@dev - dynamically trait keys (keys_trt) array - add if the trait does not exist 
-    function addtrait(bytes32 memory key) public returns (bytes32[]){
+    function addtrait(string memory key) public returns (string[] memory){
 
+        ///@dev look for key in array - prolly better ways, also still not sure how bytes will work instad of string
         bool found = false;
-        for (uint i = 0  i < keys_trt.length; i++){
-            if (keccak256(keys_trt[i])==keccak256(key)) {
+        for (uint i = 0; i < keys_trt.length; i++){
+            if (keccak256(bytes(keys_trt[i]))==keccak256(bytes(key))) {
                 found = true;
                 break;
             }
         }
 
+        ///@dev add key 
         if(!found){
-            keys_trt.push(key)
+            keys_trt.push(key);
         }
 
         return keys_trt;
