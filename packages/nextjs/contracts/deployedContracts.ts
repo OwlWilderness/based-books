@@ -7,8 +7,13 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     BasedKemonokakiTribute: {
-      address: "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+      address: "0x70e0bA845a1A0F2DA3359C97E0285013525FFC49",
       abi: [
+        {
+          inputs: [],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
         {
           inputs: [],
           name: "Name",
@@ -39,23 +44,9 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "string",
-              name: "key",
+              name: "",
               type: "string",
             },
-          ],
-          name: "addtrait",
-          outputs: [
-            {
-              internalType: "string[]",
-              name: "",
-              type: "string[]",
-            },
-          ],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
             {
               internalType: "string",
               name: "",
@@ -81,6 +72,57 @@ const deployedContracts = {
               internalType: "address",
               name: "",
               type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getdescription",
+          outputs: [
+            {
+              internalType: "string",
+              name: "description",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "sid",
+              type: "string",
+            },
+          ],
+          name: "getimgurl",
+          outputs: [
+            {
+              internalType: "string",
+              name: "imgurl",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "sid",
+              type: "string",
+            },
+          ],
+          name: "getname",
+          outputs: [
+            {
+              internalType: "string",
+              name: "name",
+              type: "string",
             },
           ],
           stateMutability: "view",
@@ -115,62 +157,10 @@ const deployedContracts = {
         {
           inputs: [
             {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "keys_att",
-          outputs: [
-            {
               internalType: "string",
-              name: "",
+              name: "sid",
               type: "string",
             },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "keys_nft",
-          outputs: [
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "keys_trt",
-          outputs: [
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
             {
               internalType: "string",
               name: "key",
@@ -183,59 +173,39 @@ const deployedContracts = {
             },
           ],
           name: "mapattribute",
-          outputs: [
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-          ],
+          outputs: [],
           stateMutability: "nonpayable",
           type: "function",
         },
         {
           inputs: [
             {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
+              internalType: "string",
+              name: "s1",
+              type: "string",
             },
-          ],
-          name: "vals_nft",
-          outputs: [
             {
               internalType: "string",
-              name: "",
+              name: "s2",
               type: "string",
             },
           ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "vals_trd",
+          name: "scat",
           outputs: [
             {
               internalType: "string",
-              name: "",
+              name: "cat_string",
               type: "string",
             },
           ],
-          stateMutability: "view",
+          stateMutability: "pure",
           type: "function",
         },
       ],
       inheritedFunctions: {},
     },
     YourContract: {
-      address: "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
+      address: "0x998abeb3E57409262aE5b751f60747921B33613E",
       abi: [
         {
           inputs: [

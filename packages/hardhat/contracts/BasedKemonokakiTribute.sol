@@ -52,30 +52,68 @@ contract BasedKemonokakiTribute {
     ////    ]                                                                                                         ////
     ////}                                                                                                             ////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    string private description = "kemonokaki is a hand-drawn PFP collection inspired by kemonomimi & neo-chibi aesthetics.";
+   
+   ///@dev these should prolly not be hard coded as the meta data might update??
+    string private tokendesc = "kemonokaki is a hand-drawn PFP collection inspired by kemonomimi & neo-chibi aesthetics.";
+    string private tokenname = "Kemonokaki #";
+    string[] private keys_nft = ["name","description","image","attributes"]; //not sure if this works like this.
+    string[] private keys_att = ["trait_type","value"];
+    string[] private keys_trt = ["Race","Special Indicator"] ;
+    string[] private init_vals_trt = ["Special","Genesis"];
 
-    string[] public vals_nft = ["Kemonokaki #1","","",""];
-
-    string[] public keys_nft = ["name","description","image","attributes"]; //not sure if this works like this.
     
-    string[] public keys_att = ["trait_type","value"];
-    string[] public keys_trt = ["Race","Special Indicator"] ;
-    string[] public vals_trd = ["Special","Genesis"];
+    ///@notice map string tokenid : trait_type : value pair 
+    mapping(string => mapping(string => string)) public attributes; 
 
+    ///@notice constructor inits with genisis kemonokaki
+    constructor() {
+        init("1");
+    }
 
-    mapping(string => string) public attributes;
+    ///@notice init stuf on deploy
+    function init(string memory sid) private {
+        for(uint i = 0; i < keys_att.length; ++i){
+            mapattribute(sid,keys_trt[i],init_vals_trt[i]);
+        }
+    }
 
-    //constructor() public {
-     //   
-   // }
+    ///@notice get description
+    ///@return description of token
+    function getdescription() public view returns (string memory description){
+        return tokendesc;
+    }
 
-    function mapattribute(string memory key, string memory value) public returns (string memory){
-        attributes[key] = value;
+    ///@notice get name with token id.
+    ///@dev sid - string id
+    ///@return name of token
+    function getname(string memory sid) public view returns (string memory name){
+        return scat(tokenname, sid);
+    }
+
+    ///@notice get image url with token id
+    ///@return imgurl of token
+    function getimgurl(string memory sid) public view returns (string memory imgurl) {
+        return scat(scat(scat(scat("ipfs://",hKEMONO_Im), "/"),sid),".png");
+    }
+
+    ///@notice concat two strings 
+    ///@return cat_string of two strings
+    function scat(string memory s1, string memory s2) public pure returns (string memory cat_string){
+        return string(abi.encodePacked(s1,s2));
+    }
+
+    ///@notice mapp attribute 
+    ///@dev uppdates attribute trait_type : value map
+    ///@dev add trait to trait array
+    ///@dev - - ? should this be only owner - only work if nft owned - or payabe (free for dev)
+    function mapattribute(string memory sid, string memory key, string memory value) public {
+        attributes[sid][key] = value;
         addtrait(key);
     }
 
     ///@dev - dynamically trait keys (keys_trt) array - add if the trait does not exist 
-    function addtrait(string memory key) public returns (string[] memory){
+    ///@return trait_keys array
+    function addtrait(string memory key) private returns (string[] memory trait_keys){
 
         ///@dev look for key in array - prolly better ways, also still not sure how bytes will work instad of string
         bool found = false;
@@ -93,9 +131,4 @@ contract BasedKemonokakiTribute {
 
         return keys_trt;
     }
-    
-
-
-
-    
 }
