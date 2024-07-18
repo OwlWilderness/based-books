@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     BasedKemonokakiTribute: {
-      address: "0xc351628EB244ec633d5f21fBD6621e1a683B1181",
+      address: "0x8198f5d8F8CfFE8f9C413d98a0A55aEB8ab9FbB7",
       abi: [
         {
           inputs: [],
@@ -78,6 +78,25 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [
+            {
+              internalType: "string",
+              name: "sid",
+              type: "string",
+            },
+          ],
+          name: "getatts",
+          outputs: [
+            {
+              internalType: "string",
+              name: "attnode",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [],
           name: "getdescription",
           outputs: [
@@ -103,6 +122,25 @@ const deployedContracts = {
             {
               internalType: "string",
               name: "imgurl",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "sid",
+              type: "string",
+            },
+          ],
+          name: "getmetadata",
+          outputs: [
+            {
+              internalType: "string",
+              name: "metadata",
               type: "string",
             },
           ],
@@ -248,7 +286,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     YourContract: {
-      address: "0x7bc06c482DEAd17c0e297aFbC32f6e63d3846650",
+      address: "0x36b58F5C1969B7b6591D752ea6F5486D069010AB",
       abi: [
         {
           inputs: [

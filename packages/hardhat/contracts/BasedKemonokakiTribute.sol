@@ -35,12 +35,12 @@ contract BasedKemonokakiTribute {
     string public hKEMONO_Ii = "bafybeidxclt74frtmiuiisfquphn2qdukz2cg63cr7bwyblp3mfwr5gk6a";///////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////EXAMPLE////METADATA//////////////////////////////////////////////////////////////////////////////////////////
     ////{                                                                                                             ////
     ////    "name": "Kemonokaki #1",                                                                                  ////
     ////    "description": "kemonokaki is a hand-drawn PFP collection inspired by kemonomimi & neo-chibi aesthetics.",////
     ////    "image": "ipfs://bafybeidxclt74frtmiuiisfquphn2qdukz2cg63cr7bwyblp3mfwr5gk6a/1.png",                      ////
-    ////    "attributes": [                                                                                           ////
+    ////    "attributes": [                                                                                    ////
     ////        {                                                                                                     ////
     ////            "trait_type": "Race",                                                                             ////
     ////            "value": "Special"                                                                                ////
@@ -77,12 +77,85 @@ contract BasedKemonokakiTribute {
         }
     }
 
+
+
+    ///@notice get metadata for token id
+    ///@return metadata of token id
+    function getmetadata(string memory sid) public view returns (string memory metadata) {
+        string memory st = "{";
+
+        string memory name = scat(getname(sid),",");
+
+        string memory desc = scat(getdescription(),",");
+
+        string memory image = scat(getimgurl(sid),",");
+
+        string memory atts = scat(getatts(sid),"}");
+
+        metadata = scat(scat(scat(scat(st,name),desc),image),atts);
+    }
+
+    ///@notice get meta url with token id
+    ///@return metaurl of token
+    function getmetaurl(string memory sid) public view returns (string memory metaurl){
+        return scat(scat(scat("https://",hKEMONO_Im), ".ipfs.dweb.link/"),sid);
+    }
+
+    ///@notice get name with token id.
+    ///@dev sid - string id
+    ///@return name of token
+    function getname(string memory sid) public view returns (string memory name){
+        ///@dev  return "name": "Kemonokaki #1" without the comma;
+        string memory st = "\"name\":\"";
+        string memory bd = scat(tokenname, sid);
+        name = scat(scat(st, bd),"\"");
+    }
+
     ///@notice get description
     ///@return description of token
     function getdescription() public view returns (string memory description){
-        return tokendesc;
+        string memory st = "\"description\": \"";
+        description = scat(scat(st,tokendesc),"\"");
     }
 
+    ///@notice get image url with token id
+    ///@return imgurl of token
+    function getimgurl(string memory sid) public view returns (string memory imgurl) {
+        string memory st = "\"image\": \"";
+        string memory img = scat(scat(scat(scat("ipfs://",hKEMONO_Ii), "/"),sid),".png");
+        imgurl = scat(scat(st,img),"\"");
+    }
+
+    ///@notice gets traitsnodes for token id
+    ///@return attnode json of token
+    function getatts(string memory sid) public view returns (string memory attnode){
+        string memory st = "\"attributes\":[";
+        string memory en = "]";
+        string memory bd;
+
+        ///@dev go thru each known trait and see if token id has
+        for(uint i = 0; i < keys_trt.length; ++i){
+            ///@dev get value of this trait for this token id
+            string memory key = keys_trt[i];
+            string memory value = attributes[sid][key];
+
+            ///@dev check length of attribute for this sid key and continue if noot
+            bytes memory bval = bytes(value);
+            if(bval.length == 0){
+                continue;
+            } 
+
+            ///@dev get traitnode and add comma if nodes exist
+            string memory traitnode = gettraitnode(key,value);
+            bytes memory bbd = bytes(bd);
+            if(bbd.length > 0){
+                bd = scat(bd,scat(",",traitnode));
+            } else {
+                bd = traitnode;
+            }
+        }
+        return scat(scat(st,bd),en);
+    }
 
     ///@notice gets string trait node from trait and value
     ///@return traitnode that looks like this:
@@ -101,25 +174,6 @@ contract BasedKemonokakiTribute {
         string memory s7 = scat(s6,value);
         string memory s8 = scat(s7,"\"}");
         return s8;
-    }
-
-    ///@notice get name with token id.
-    ///@dev sid - string id
-    ///@return name of token
-    function getname(string memory sid) public view returns (string memory name){
-        return scat(tokenname, sid);
-    }
-
-    ///@notice get meta url with token id
-    ///@return metaurl of token
-    function getmetaurl(string memory sid) public view returns (string memory metaurl){
-        return scat(scat(scat("https://",hKEMONO_Im), ".ipfs.dweb.link/"),sid);
-    }
-
-    ///@notice get image url with token id
-    ///@return imgurl of token
-    function getimgurl(string memory sid) public view returns (string memory imgurl) {
-        return scat(scat(scat(scat("ipfs://",hKEMONO_Ii), "/"),sid),".png");
     }
 
     ///@notice concat two strings 
