@@ -83,6 +83,26 @@ contract BasedKemonokakiTribute {
         return tokendesc;
     }
 
+
+    ///@notice gets string trait node from trait and value
+    ///@return traitnode that looks like this:
+    ////        {                                                                                                     ////
+    ////            "trait_type": "Special Indicator",                                                                ////
+    ////            "value": "Genesis"                                                                                ////
+    ////        }  
+    function gettraitnode(string memory key, string memory value) public view returns (string memory traitnode) {
+        ///@dev view so no mana - and easier to read...
+        string memory s1 = scat("{\"",keys_att[0]); 
+        string memory s2 = scat(s1, "\":\"");
+        string memory s3 = scat(s2, key);
+        string memory s4 = scat(s3,"\",\"");
+        string memory s5 = scat(s4,keys_att[1]);
+        string memory s6 = scat(s5,"\":\""); 
+        string memory s7 = scat(s6,value);
+        string memory s8 = scat(s7,"\"}");
+        return s8;
+    }
+
     ///@notice get name with token id.
     ///@dev sid - string id
     ///@return name of token
@@ -90,10 +110,16 @@ contract BasedKemonokakiTribute {
         return scat(tokenname, sid);
     }
 
+    ///@notice get meta url with token id
+    ///@return metaurl of token
+    function getmetaurl(string memory sid) public view returns (string memory metaurl){
+        return scat(scat(scat("https://",hKEMONO_Im), ".ipfs.dweb.link/"),sid);
+    }
+
     ///@notice get image url with token id
     ///@return imgurl of token
     function getimgurl(string memory sid) public view returns (string memory imgurl) {
-        return scat(scat(scat(scat("ipfs://",hKEMONO_Im), "/"),sid),".png");
+        return scat(scat(scat(scat("ipfs://",hKEMONO_Ii), "/"),sid),".png");
     }
 
     ///@notice concat two strings 
