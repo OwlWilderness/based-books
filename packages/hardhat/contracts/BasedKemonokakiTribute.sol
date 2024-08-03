@@ -6,6 +6,19 @@ pragma solidity >=0.8.0 <0.9.0;
 /// @notice tribute : send based kemonokaki 
 /// @dev source : https://github.com/OwlWilderness/based-books/tree/book-one
 
+
+////////////////////////////////////////////////////////
+///@notice to do:
+///@dev look up storage vs memory
+///@dev error handling 
+///@dev allow lock attributes
+///@dev only owner of token can can create tribute
+///@dev token is provided to tribute creator
+///@dev clean/update attributes
+////////////////////////////////////////////////////////
+
+
+///@notice Based Kemonokaki Tribute
 contract BasedKemonokakiTribute {
     string public Name = "based kemonokaki tribute";
     string public Symbol = "bkt";
@@ -53,7 +66,8 @@ contract BasedKemonokakiTribute {
     ////}                                                                                                             ////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
-   ///@dev these should prolly not be hard coded as the meta data might update??
+    ///@notice default values 
+    ///@dev these should prolly not be hard coded as the meta data might update??
     string private tokendesc = "kemonokaki is a hand-drawn PFP collection inspired by kemonomimi & neo-chibi aesthetics.";
     string private tokenname = "Kemonokaki #";
     string[] private keys_nft = ["name","description","image","attributes"]; //not sure if this works like this.
@@ -61,7 +75,6 @@ contract BasedKemonokakiTribute {
     string[] private keys_trt = ["Race","Special Indicator"] ;
     string[] private init_vals_trt = ["Special","Genesis"];
 
-    
     ///@notice map string tokenid : trait_type : value pair 
     mapping(string => mapping(string => string)) public attributes; 
 
@@ -76,8 +89,6 @@ contract BasedKemonokakiTribute {
             mapattribute(sid,keys_trt[i],init_vals_trt[i]);
         }
     }
-
-
 
     ///@notice get metadata for token id
     ///@return metadata of token id
@@ -182,8 +193,28 @@ contract BasedKemonokakiTribute {
         return string(abi.encodePacked(s1,s2));
     }
 
+    ///@notice mapp attributes
+    ///@dev callse mapp attribute for an array of keys and values
+    ///@dev len must match in key and value pairs -
+    function mapattributes(string memory sid, string[] memory keys, string[] memory values) public {
+
+        uint kl = keys.length;
+        uint vl = values.length;
+
+        ///@dev only use keys that have values
+        if (vl < kl){
+            kl = vl;
+        }
+
+        ///@dev mapp each attribute.
+        for(uint i = 0; i < kl; ++i){
+            mapattribute(sid,keys[i],values[i]);
+        }
+        
+    }
+
     ///@notice mapp attribute 
-    ///@dev uppdates attribute trait_type : value map
+    ///@dev uppdates single attribute trait_type : value map
     ///@dev add trait to trait array
     ///@dev - - ? should this be only owner - only work if nft owned - or payabe (free for dev)
     function mapattribute(string memory sid, string memory key, string memory value) public {
